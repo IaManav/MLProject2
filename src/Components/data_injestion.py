@@ -2,11 +2,13 @@ import sys
 import os
 import pandas as pd
 import numpy as np
+
 from sklearn.model_selection import train_test_split
+from dataclasses import dataclass
 from src.exception import CustomEception
 from src.logger import logging
 
-
+@dataclass
 class DataInjestionConfig:
     train_data_path:str=os.path.join("artifacts","train.csv")
     test_data_path:str=os.path.join("artifacts","test.csv")
