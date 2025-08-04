@@ -5,7 +5,7 @@ import numpy as np
 
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
-from src.exception import CustomEception
+from src.exception import CustomException
 from src.logger import logging
 
 @dataclass
@@ -21,7 +21,7 @@ class DataInjestion:
     def initiate_data_conf(self):
         logging.info("Entered data injestion")
         try:
-            df=pd.read_csv("notebook/data/used_cars.csv")
+            df=pd.read_csv("notebook/data/CleanedCardetails.csv")
             logging.info("Read the dataset as dataframe")
             os.makedirs(os.path.dirname(self.injestionconfig.train_data_path),exist_ok=True)
 
@@ -37,7 +37,7 @@ class DataInjestion:
                 self.injestionconfig.test_data_path
             }
         except Exception as e:
-            raise CustomEception(e,sys)
+            raise CustomException(e,sys)
 
 
 

@@ -1,8 +1,8 @@
 numpy
 pandas
-scikit-learn==1.7.0
+scikit-learn
 matplotlib
 seaborn
 jupyter
 catboost
--e .
+# -e .
