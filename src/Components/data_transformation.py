@@ -21,7 +21,7 @@ class DataTransformation:
     def __init__(self):
         self.datatransformationconfig=DataTransformationConfig()
 
-    def gat_data_transformation_object(self):
+    def get_data_transformation_object(self):
         try:
             numerical_columns=["year","selling_price","km_driven","engine","max_power","seats"]
             categorical_columns=["seller_type","transmission","owner"]
@@ -48,7 +48,7 @@ class DataTransformation:
             logging.info("Read train and test data completed")
             logging.info("Obtaining preprocessing object")
 
-            preprocessing_obj=self.gat_data_transformation_object()
+            preprocessing_obj=self.get_data_transformation_object()
             target_column_name="selling_price"
 
             input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1)
