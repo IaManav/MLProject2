@@ -8,6 +8,11 @@ from dataclasses import dataclass
 from src.exception import CustomException
 from src.logger import logging
 
+from src.Components.data_transformation import DataTransformationConfig
+from src.Components.data_transformation import DataTransformation
+from src.Components.model_training import ModelTrainingConfig
+from src.Components.model_training import ModelTraining
+
 @dataclass
 class DataInjestionConfig:
     train_data_path:str=os.path.join("artifacts","train.csv")
@@ -44,3 +49,9 @@ if __name__=="__main__":
     obj = DataInjestion()
     train_data,test_data=obj.initiate_data_injestion()
 
+    Data_Transformation=DataTransformation()
+
+    train_arr,test_arr,_=Data_Transformation.initate_data_transformation(train_data,test_data)
+    model_trainer=ModelTraining()
+
+    print(model_trainer.initiate_model_trainer(train_arr,test_arr))
