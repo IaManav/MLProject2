@@ -10,7 +10,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from src.exception import CustomException
-from src.utils import load_object
+from src.utils import load_object,save_object
 from src.logger import logging
 
 @dataclass
@@ -23,7 +23,7 @@ class DataTransformation:
 
     def get_data_transformation_object(self):
         try:
-            numerical_columns=["year","selling_price","km_driven","engine","max_power","seats"]
+            numerical_columns=["year","km_driven","engine","max_power","seats"]
             categorical_columns=["seller_type","transmission","owner"]
             num_pipeline=Pipeline(
                 steps=[("imputer",SimpleImputer(strategy="median")),("scaler",StandardScaler())]
@@ -64,6 +64,7 @@ class DataTransformation:
             train_arr = np.c_[input_feature_train_arr,np.array(target_feature_train_df)]
             test_arr = np.c_[input_feature_test_arr,np.array(target_feature_test_df)]
             logging.info(f"Saved Preprocessing object")
+            save_object(file_path=self.datatransformationconfig.preprocesor_object_file_path,obj=preprocessing_obj)
             
             return(
                 train_arr,
