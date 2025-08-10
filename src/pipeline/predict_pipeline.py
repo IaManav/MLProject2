@@ -25,7 +25,7 @@ class PredictPipeline:
             raise CustomException(e,sys)
     
 class Custom_Data:
-    def __init__(self,year:int,selling_price:int,km_driven:int,fuel:str,seller_type:str,transmission:str,owner:str,mielage:str,engine:int,max_power:int,seat:int):
+    def __init__(self,year:int,selling_price:int,km_driven:int,fuel:str,seller_type:str,transmission:str,owner:str,mielage:str,engine:int,max_power:int,seats:int):
         self.year=year
         self.selling_price=selling_price
         self.km_driven=km_driven
@@ -36,7 +36,7 @@ class Custom_Data:
         self.mielage=mielage
         self.engine=engine
         self.max_power=max_power
-        self.seat=seat
+        self.seats=seats
 
     def get_data_as_dataframe(self):
         try:
@@ -51,9 +51,10 @@ class Custom_Data:
                 "mielage":[self.mielage],
                 "engine":[self.engine],
                 "max_power":[self.max_power],
-                "seat":[self.seat],
+                "seats":[self.seats],
             }
 
-            pd.DataFrame(Custom_Data_input_dict)
+            return pd.DataFrame(Custom_Data_input_dict)
+            
         except Exception as e:
             raise CustomException(e,sys)
