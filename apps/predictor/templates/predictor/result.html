@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #999;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: green;
+            margin: 20px 0;
+        }
+        a, button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 20px;
+            text-decoration: none;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+        }
+        a:hover, button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Used Car Price Prediction</h1>
+        
+        {% if prediction %}
+            <p class="price">Predicted Price: {{ prediction }}</p>
+        {% else %}
+            <p>No prediction available.</p>
+        {% endif %}
+
+        <a href="{% url 'car_price_predict' %}">Make Another Prediction</a>
+    </div>
+</body>
+</html>
