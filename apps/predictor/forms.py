@@ -1,6 +1,46 @@
 from django import forms
 
 class CarPriceForm(forms.Form):
+    # Brand field with all the car brands
+    # brand = forms.ChoiceField(
+    #     label='Car Brand',
+    #     choices=[
+    #         ('', 'Select Brand'),  # Default empty option
+    #         ('Maruti', 'Maruti'),
+    #         ('Skoda', 'Skoda'), 
+    #         ('Honda', 'Honda'),
+    #         ('Hyundai', 'Hyundai'),
+    #         ('Toyota', 'Toyota'),
+    #         ('Ford', 'Ford'),
+    #         ('Renault', 'Renault'),
+    #         ('Mahindra', 'Mahindra'),
+    #         ('Tata', 'Tata'),
+    #         ('Chevrolet', 'Chevrolet'),
+    #         ('Fiat', 'Fiat'),
+    #         ('Datsun', 'Datsun'),
+    #         ('Jeep', 'Jeep'),
+    #         ('Mercedes-Benz', 'Mercedes-Benz'),
+    #         ('Mitsubishi', 'Mitsubishi'),
+    #         ('Audi', 'Audi'),
+    #         ('Volkswagen', 'Volkswagen'),
+    #         ('BMW', 'BMW'),
+    #         ('Nissan', 'Nissan'),
+    #         ('Lexus', 'Lexus'),
+    #         ('Jaguar', 'Jaguar'),
+    #         ('Land', 'Land Rover'),
+    #         ('MG', 'MG'),
+    #         ('Volvo', 'Volvo'),
+    #         ('Daewoo', 'Daewoo'),
+    #         ('Kia', 'Kia'),
+    #         ('Force', 'Force'),
+    #         ('Ambassador', 'Ambassador'),
+    #         ('Ashok', 'Ashok Leyland'),
+    #         ('Isuzu', 'Isuzu'),
+    #         ('Opel', 'Opel'),
+    #         ('Peugeot', 'Peugeot'),
+    #     ]
+    # )
+    
     year = forms.IntegerField(label='Year', min_value=1900, max_value=2025)
     km_driven = forms.IntegerField(label='Kilometers Driven', min_value=0)
     engine = forms.IntegerField(label='Engine Capacity (cc)', min_value=500)

@@ -1,3 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Predictor - Get Your Car's Value</title>
+    <link rel="stylesheet" href="{% static 'predictor/css/form.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 Car Price Predictor</h1>
+            <p>Get an instant estimate of your car's market value using advanced AI</p>
+        </div>
+
+        <div class="form-container">
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3> Accurate</h3>
+                    <p>ML-powered predictions</p>
+                </div>
+                <div class="info-card">
+                    <h3> Instant</h3>
+                    <p>Results in seconds</p>
+                </div>
+                <div class="info-card">
+                    <h3> Free</h3>
+                    <p>No hidden charges</p>
+                </div>
+            </div>
+
+            <form method="post" id="carPriceForm">
+                {% csrf_token %}
+                
+                <div class="form-grid">
+                    <!-- <div class="form-group">
+                        <label for="{{ form.brand.id_for_label }}">🚗 {{ form.brand.label }}</label>
+                        {{ form.brand }}
+                        {% if form.brand.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.brand.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if form.brand.help_text %}
+                            <div class="helptext">{{ form.brand.help_text }}</div>
+                        {% endif %}
+                    </div> -->
+
+                    <div class="form-group">
+                        <label for="{{ form.year.id_for_label }}"> {{ form.year.label }}</label>
+                        {{ form.year }}
+                        {% if form.year.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.year.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if form.year.help_text %}
+                            <div class="helptext">{{ form.year.help_text }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.km_driven.id_for_label }}"> {{ form.km_driven.label }}</label>
+                        {{ form.km_driven }}
+                        {% if form.km_driven.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.km_driven.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.engine.id_for_label }}"> {{ form.engine.label }}</label>
+                        {{ form.engine }}
+                        {% if form.engine.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.engine.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.max_power.id_for_label }}"> {{ form.max_power.label }}</label>
+                        {{ form.max_power }}
+                        {% if form.max_power.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.max_power.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.seats.id_for_label }}"> {{ form.seats.label }}</label>
+                        {{ form.seats }}
+                        {% if form.seats.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.seats.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.seller_type.id_for_label }}"> {{ form.seller_type.label }}</label>
+                        {{ form.seller_type }}
+                        {% if form.seller_type.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.seller_type.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.owner.id_for_label }}"> {{ form.owner.label }}</label>
+                        {{ form.owner }}
+                        {% if form.owner.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.owner.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.transmission.id_for_label }}"> {{ form.transmission.label }}</label>
+                        {{ form.transmission }}
+                        {% if form.transmission.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.transmission.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="submit-container">
+                    <button type="submit" class="submit-btn">
+                        🔮 Predict My Car's Price
+                        <span class="loading">⏳</span>
+                    </button>
+                </div>
+            </form>
+
+            {% if prediction %}
+            <div class="prediction-result">
+                <h2>🎉 Your Car's Predicted Value</h2>
+                <div class="price-value">{{ prediction }}</div>
+                <p style="margin-top: 15px; color: #666;">This estimate is based on current market trends and your car's specifications</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('carPriceForm').addEventListener('submit', function() {
+            const btn = document.querySelector('.submit-btn');
+            const loading = document.querySelector('.loading');
+            
+            btn.style.opacity = '0.8';
+            btn.disabled = true;
+            loading.style.display = 'inline';
+        });
+
+        // Add input animations
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Form validation enhancements
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value && this.checkValidity()) {
+                    this.style.borderColor = '#28a745';
+                } else if (this.value) {
+                    this.style.borderColor = '#dc3545';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 <!-- <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +218,7 @@
     {% endif %}
 </body>
 </html> -->
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,7 +283,7 @@
         <form method="post">
             {% csrf_token %}
             <!-- Render Django form fields -->
-            {{ form.as_p }}
+            <!-- {{ form.as_p }}
             <button type="submit">Predict Price</button>
         </form>
 
@@ -91,4 +294,416 @@
         {% endif %}
     </div>
 </body>
-</html>
+</html> --> -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Predictor - Get Your Car's Value</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4facfe;
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.2);
+        }
+
+        .form-group input:valid {
+            border-color: #28a745;
+        }
+
+        .icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+        }
+
+        .submit-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            min-width: 200px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .loading {
+            display: none;
+            margin-left: 10px;
+        }
+
+        .prediction-result {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+        }
+
+        .prediction-result h2 {
+            color: #2c5530;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .price-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #1e7e34;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-card h3 {
+            color: #8b4513;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .info-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+        }
+
+        .errorlist {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 5px;
+            list-style: none;
+        }
+
+        .errorlist li {
+            margin-bottom: 3px;
+        }
+
+        .helptext {
+            color: #6c757d;
+            font-size: 0.85em;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 Car Price Predictor</h1>
+            <p>Get an instant estimate of your car's market value using advanced AI</p>
+        </div>
+
+        <div class="form-container">
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3>🎯 Accurate</h3>
+                    <p>ML-powered predictions</p>
+                </div>
+                <div class="info-card">
+                    <h3>⚡ Instant</h3>
+                    <p>Results in seconds</p>
+                </div>
+                <div class="info-card">
+                    <h3>🔒 Free</h3>
+                    <p>No hidden charges</p>
+                </div>
+            </div>
+
+            <form method="post" id="carPriceForm">
+                {% csrf_token %}
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="{{ form.year.id_for_label }}">📅 {{ form.year.label }}</label>
+                        {{ form.year }}
+                        {% if form.year.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.year.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if form.year.help_text %}
+                            <div class="helptext">{{ form.year.help_text }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.km_driven.id_for_label }}">🛣️ {{ form.km_driven.label }}</label>
+                        {{ form.km_driven }}
+                        {% if form.km_driven.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.km_driven.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.engine.id_for_label }}">⚙️ {{ form.engine.label }}</label>
+                        {{ form.engine }}
+                        {% if form.engine.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.engine.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.max_power.id_for_label }}">🏎️ {{ form.max_power.label }}</label>
+                        {{ form.max_power }}
+                        {% if form.max_power.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.max_power.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.seats.id_for_label }}">💺 {{ form.seats.label }}</label>
+                        {{ form.seats }}
+                        {% if form.seats.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.seats.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.seller_type.id_for_label }}">🏪 {{ form.seller_type.label }}</label>
+                        {{ form.seller_type }}
+                        {% if form.seller_type.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.seller_type.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.owner.id_for_label }}">👤 {{ form.owner.label }}</label>
+                        {{ form.owner }}
+                        {% if form.owner.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.owner.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.transmission.id_for_label }}">⚡ {{ form.transmission.label }}</label>
+                        {{ form.transmission }}
+                        {% if form.transmission.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.transmission.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="submit-container">
+                    <button type="submit" class="submit-btn">
+                        🔮 Predict My Car's Price
+                        <span class="loading">⏳</span>
+                    </button>
+                </div>
+            </form>
+
+            {% if prediction %}
+            <div class="prediction-result">
+                <h2>🎉 Your Car's Predicted Value</h2>
+                <div class="price-value">{{ prediction }}</div>
+                <p style="margin-top: 15px; color: #666;">This estimate is based on current market trends and your car's specifications</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('carPriceForm').addEventListener('submit', function() {
+            const btn = document.querySelector('.submit-btn');
+            const loading = document.querySelector('.loading');
+            
+            btn.style.opacity = '0.8';
+            btn.disabled = true;
+            loading.style.display = 'inline';
+        });
+
+        // Add input animations
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Form validation enhancements
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value && this.checkValidity()) {
+                    this.style.borderColor = '#28a745';
+                } else if (this.value) {
+                    this.style.borderColor = '#dc3545';
+                }
+            });
+        });
+    </script>
+</body>
+</html> -->
