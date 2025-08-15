@@ -8,6 +8,7 @@ def car_price_predict(request):
         form = CarPriceForm(request.POST)
         if form.is_valid():
             data = Custom_Data(
+                # brand=form.cleaned_data['brand'],  # Added brand field
                 year=form.cleaned_data['year'],
                 selling_price=0,  # or as applicable
                 km_driven=form.cleaned_data['km_driven'],
@@ -37,4 +38,3 @@ def car_price_predict(request):
 def car_price_result(request):
     prediction = request.session.get('prediction', None)
     return render(request, 'predictor/result.html', {'prediction': prediction})
-

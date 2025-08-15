@@ -38,6 +38,20 @@ class Custom_Data:
         self.max_power=max_power
         self.seats=seats
 
+#  def __init__(self,brand:str,year:int,selling_price:int,km_driven:int,fuel:str,seller_type:str,transmission:str,owner:str,mielage:str,engine:int,max_power:int,seats:int):
+#         self.brand = brand # <-- Add this line
+#         self.year = year
+#         self.selling_price = selling_price
+#         self.km_driven = km_driven
+#         self.fuel = fuel
+#         self.seller_type = seller_type
+#         self.transmission = transmission
+#         self.owner = owner
+#         self.mielage = mielage
+#         self.engine = engine
+#         self.max_power = max_power
+#         self.seats = seats
+
     def get_data_as_dataframe(self):
         try:
             Custom_Data_input_dict={
@@ -58,3 +72,24 @@ class Custom_Data:
             
         except Exception as e:
             raise CustomException(e,sys)
+#  def get_data_as_dataframe(self):
+#     try:
+#         Custom_Data_input_dict={
+#             "brand":[self.brand], # <-- Add this line
+#             "year":[self.year],
+#             "selling_price":[self.selling_price],
+#             "km_driven":[self.km_driven],
+#             "fuel":[self.fuel],
+#             "seller_type":[self.seller_type],
+#             "transmission":[self.transmission],
+#             "owner":[self.owner],
+#             "mielage":[self.mielage],
+#             "engine":[self.engine],
+#             "max_power":[self.max_power],
+#             "seats":[self.seats],
+#         }
+
+#         return pd.DataFrame(Custom_Data_input_dict)
+        
+#     except Exception as e:
+#         raise CustomException(e,sys)
